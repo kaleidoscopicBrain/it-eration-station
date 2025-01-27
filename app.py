@@ -23,7 +23,8 @@ def write_code():
     money += 50
     tasks_completed += 1
     
-    if request.is_xhr:  # Check if the request is an AJAX request
+    # Check if it's an AJAX request
+    if request.is_xhr:
         return jsonify({'money': money, 'tasks_completed': tasks_completed})
     
     return redirect(url_for('home'))
@@ -34,7 +35,8 @@ def solve_ticket():
     money += 30
     tasks_completed += 1
     
-    if request.is_xhr:  # Check if the request is an AJAX request
+    # Check if it's an AJAX request
+    if request.is_xhr:
         return jsonify({'money': money, 'tasks_completed': tasks_completed})
     
     return redirect(url_for('home'))
