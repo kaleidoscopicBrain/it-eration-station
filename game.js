@@ -9,7 +9,7 @@ let cooldownActive = false;
 const moneyElement = document.getElementById("money");
 const tasksCompletedElement = document.getElementById("tasks-completed");
 const cooldownTimeElement = document.getElementById("cooldown-time");
-const writeCodeButton = document.getElementById("write-code");
+const writeCodeButton = document.getElementById("write_code");
 const upgradeMoneyButton = document.getElementById("upgrade-money");
 const upgradeCooldownButton = document.getElementById("upgrade-cooldown");
 
@@ -20,18 +20,23 @@ function updateGameInfo() {
     cooldownTimeElement.textContent = `Cooldown Time: ${cooldownTime / 1000}s`;
 }
 
-// Function to handle the Write Code action
+// Function to handle the Write Code action with progress bar
 writeCodeButton.addEventListener("click", function() {
     if (!cooldownActive) {
-        money += moneyPerTask; // Add money per task
-        tasksCompleted += 1; // Increment tasks completed
-        updateGameInfo();
+        // Disable the button and start the progress bar
+        writeCodeButton.disabled = true;
+        const progressBar = writeCodeButton.querySelector(".progress-bar");
+        progressBar.style.width = "100%"; // Start progress bar animation
 
-        // Start the cooldown timer
-        cooldownActive = true;
-        setTimeout(() => {
-            cooldownActive = false;
+        // Simulate task completion
+        setTimeout(function() {
+            money += moneyPerTask; // Add money per task
+            tasksCompleted += 1; // Increment tasks completed
             updateGameInfo();
+
+            // Reset the button and progress bar after task completion
+            writeCodeButton.disabled = false;
+            progressBar.style.width = "0%"; // Reset progress bar
         }, cooldownTime);
     } else {
         alert("Please wait for the cooldown!");
