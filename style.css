@@ -79,3 +79,11 @@ button:disabled {
     background-color: #BDC3C7;
     cursor: not-allowed;
 }
+
+/* Error message styling */
+.error-message {
+    color: #e74c3c; /* Red color for error messages */
+    font-size: 14px;
+    margin-top: 5px;
+    visibility: hidden; /* Initially hidden */
+}
