@@ -23,14 +23,15 @@ def write_code():
     try:
         money += 50
         tasks_completed += 1
-        # Ensure we're responding with only the necessary data in JSON format
-        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'money': money, 'tasks_completed': tasks_completed})
+        # Respond with the updated data as JSON
+        return jsonify({
+            'ceo_name': ceo_name, 
+            'money': money, 
+            'tasks_completed': tasks_completed
+        })
     except Exception as e:
         print(f"Error in write_code: {e}")
         return jsonify({'error': 'Something went wrong'}), 500
-
-    return redirect(url_for('home'))
 
 @app.route('/solve_ticket', methods=['POST'])
 def solve_ticket():
@@ -38,14 +39,15 @@ def solve_ticket():
     try:
         money += 30
         tasks_completed += 1
-        # Ensure we're responding with only the necessary data in JSON format
-        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'money': money, 'tasks_completed': tasks_completed})
+        # Respond with the updated data as JSON
+        return jsonify({
+            'ceo_name': ceo_name, 
+            'money': money, 
+            'tasks_completed': tasks_completed
+        })
     except Exception as e:
         print(f"Error in solve_ticket: {e}")
         return jsonify({'error': 'Something went wrong'}), 500
-
-    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
