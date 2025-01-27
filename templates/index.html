@@ -33,8 +33,6 @@
 
     <script>
     // Cooldown time in milliseconds (e.g., 5 seconds)
-    var writeCodeCooldown = false;
-    var solveTicketCooldown = false;
     var cooldownTime = 5000; // 5 seconds cooldown
 
     // Function to handle cooldowns and prevent button clicking
@@ -54,7 +52,7 @@
 
     // Send request to write code
     $('#write_code').on('click', function() {
-        if (!writeCodeCooldown) {
+        if (!$(this).prop('disabled')) {
             $.post("/write_code", function(data) {
                 if (data.error) {
                     alert("Error: " + data.error);
@@ -65,7 +63,6 @@
                         <p>Money: $${data.money}</p>
                         <p>Tasks Completed: ${data.tasks_completed}</p>
                     `);
-                    writeCodeCooldown = true;  // Set cooldown flag
                     startCooldown("#write_code", "#solve_ticket"); // Apply cooldown to buttons
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -76,7 +73,7 @@
 
     // Send request to solve ticket
     $('#solve_ticket').on('click', function() {
-        if (!solveTicketCooldown) {
+        if (!$(this).prop('disabled')) {
             $.post("/solve_ticket", function(data) {
                 if (data.error) {
                     alert("Error: " + data.error);
@@ -87,7 +84,6 @@
                         <p>Money: $${data.money}</p>
                         <p>Tasks Completed: ${data.tasks_completed}</p>
                     `);
-                    solveTicketCooldown = true;  // Set cooldown flag
                     startCooldown("#solve_ticket", "#write_code"); // Apply cooldown to buttons
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -95,14 +91,13 @@
             });
         }
     });
-    
-    // Reset cooldowns when the page loads
+
+    // Reset cooldowns when the page loads (making sure both buttons are enabled)
     $(document).ready(function() {
-        writeCodeCooldown = false;
-        solveTicketCooldown = false;
-        $(".action-button").prop('disabled', false);  // Enable both buttons on page load
+        $(".action-button").prop('disabled', false);  // Ensure both buttons are enabled on page load
     });
-    </script>
+</script>
+
 
 </body>
 </html>
