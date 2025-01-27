@@ -42,9 +42,13 @@
         $(buttonId).prop('disabled', true); // Disable clicked button
         $(otherButtonId).prop('disabled', true); // Disable the other button
         
+        // Add the progress bar
+        $(buttonId).append('<div class="cooldown-progress"></div>');
+
         setTimeout(function() {
             $(buttonId).prop('disabled', false); // Enable clicked button after cooldown
             $(otherButtonId).prop('disabled', false); // Enable the other button
+            $(buttonId).find('.cooldown-progress').remove(); // Remove the progress bar
         }, cooldownTime);
     }
 
