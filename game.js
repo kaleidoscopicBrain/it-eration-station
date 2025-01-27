@@ -27,9 +27,10 @@ function updateGameInfo() {
 // Function to handle the Write Code action with progress bar
 writeCodeButton.addEventListener("click", function() {
     if (!cooldownActive) {
-        // Disable the button and start the progress bar
+        // Disable the button and start the progress bar animation
         writeCodeButton.disabled = true;
         const progressBar = writeCodeButton.querySelector(".progress-bar");
+        progressBar.style.transition = "width " + cooldownTime / 1000 + "s linear"; // Smooth animation for progress bar
         progressBar.style.width = "100%"; // Start progress bar animation
 
         // Simulate task completion
@@ -41,6 +42,14 @@ writeCodeButton.addEventListener("click", function() {
             // Reset the button and progress bar after task completion
             writeCodeButton.disabled = false;
             progressBar.style.width = "0%"; // Reset progress bar
+        }, cooldownTime);
+
+        // Set cooldown flag to true
+        cooldownActive = true;
+
+        // After cooldown time, re-enable the button
+        setTimeout(function() {
+            cooldownActive = false;
         }, cooldownTime);
     } else {
         showError(writeCodeError, "Please wait for the cooldown!");
