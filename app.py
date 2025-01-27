@@ -6,6 +6,7 @@ app = Flask(__name__)
 ceo_name = "Player"
 money = 100
 tasks_completed = 0
+cooldown_time = 5000  # Initial cooldown time (5 seconds)
 
 @app.route('/')
 def home():
@@ -17,11 +18,15 @@ def set_name():
     ceo_name = request.form['player_name']
     return redirect('/')
 
+@app.route('/upgrades')
+def upgrades():
+    return render_template('upgrades.html')  # Render the upgrades page
+
 @app.route('/write_code', methods=['POST'])
 def write_code():
     global money, tasks_completed
     try:
-        money += 50
+        money += 50  # Base money earned per task
         tasks_completed += 1
         # Respond with the updated data as JSON
         return jsonify({
@@ -37,7 +42,7 @@ def write_code():
 def solve_ticket():
     global money, tasks_completed
     try:
-        money += 30
+        money += 30  # Base money earned per solved ticket
         tasks_completed += 1
         # Respond with the updated data as JSON
         return jsonify({
