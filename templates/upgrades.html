@@ -28,29 +28,38 @@
 
     <script>
     var upgrades = {
-        upgrade1: { cost: 100, effect: 'money', value: 10 },  
-        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }
+        upgrade1: { cost: 100, effect: 'money', value: 10 },  // Example: increase money per task
+        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }  // Example: reduce cooldown time
     };
 
-    // Handle upgrade purchases
-    $('#upgrade_1').on('click', function() {
-        if (money >= upgrades.upgrade1.cost) {
-            money -= upgrades.upgrade1.cost;
-            tasks_completed += upgrades.upgrade1.value;  // Increase task completion for this upgrade
-            alert("Upgrade 1 purchased!");
+    // Function to check if the player has enough money for the upgrade
+    function checkAndPurchaseUpgrade(upgrade) {
+        if (money >= upgrade.cost) {
+            money -= upgrade.cost;  // Deduct the cost of the upgrade
+            if (upgrade.effect === 'money') {
+                tasks_completed += upgrade.value;  // For example, increase tasks completed
+            } else if (upgrade.effect === 'cooldown') {
+                cooldownTime -= upgrade.value * 1000;  // Decrease the cooldown time
+            }
+            $(".game-info").html(`
+                <p>Hello, ${ceo_name}!</p>
+                <p>Money: $${money}</p>
+                <p>Tasks Completed: ${tasks_completed}</p>
+            `);
+            alert(`${upgrade.effect} upgrade successful!`);
         } else {
-            alert("Not enough money for Upgrade 1!");
+            alert("Not enough money for this upgrade!");
         }
+    }
+
+    // Handle Upgrade 1
+    $('#upgrade_1').on('click', function() {
+        checkAndPurchaseUpgrade(upgrades.upgrade1);
     });
 
+    // Handle Upgrade 2
     $('#upgrade_2').on('click', function() {
-        if (money >= upgrades.upgrade2.cost) {
-            money -= upgrades.upgrade2.cost;
-            cooldownTime -= upgrades.upgrade2.value * 1000;  // Decrease cooldown time
-            alert("Upgrade 2 purchased!");
-        } else {
-            alert("Not enough money for Upgrade 2!");
-        }
+        checkAndPurchaseUpgrade(upgrades.upgrade2);
     });
 
     // Go back to the main game
