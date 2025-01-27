@@ -29,7 +29,7 @@
     <script>
     var upgrades = {
         upgrade1: { cost: 100, effect: 'money', value: 10 },  // Increase money per task
-        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }  // Reduce cooldown time
+        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }  // Decrease cooldown time
     };
 
     // Function to handle the upgrade purchase
@@ -48,6 +48,7 @@
                         <p>Hello, ${response.ceo_name}!</p>
                         <p>Money: $${response.money}</p>
                         <p>Tasks Completed: ${response.tasks_completed}</p>
+                        <p>Cooldown Time: ${response.cooldown_time / 1000} seconds</p>
                     `);
                 }
             },
