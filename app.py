@@ -20,22 +20,27 @@ def home():
         session['ceo_name'] = "Player"
     if 'cooldown_time' not in session:
         session['cooldown_time'] = 5000  # Initial cooldown time (5 seconds)
-    return render_template('index.html', ceo_name=session['ceo_name'], money=session['money'], tasks_completed=session['tasks_completed'])
+    logging.debug(f"Home Route - Session state: {session}")
+    return render_template('index.html', ceo_name=session['ceo_name'], money=session['money'], tasks_completed=session['tasks_completed'], cooldown_time=session['cooldown_time'])
 
 @app.route('/set_name', methods=['POST'])
 def set_name():
     session['ceo_name'] = request.form['player_name']
+    logging.debug(f"Player name set to: {session['ceo_name']}")
     return redirect('/')
 
 @app.route('/upgrades')
 def upgrades():
+    logging.debug(f"Upgrades Route - Session state: {session}")
     return render_template('upgrades.html')  # Render the upgrades page
 
 @app.route('/write_code', methods=['POST'])
 def write_code():
     try:
+        logging.debug(f"Before writing code - Session state: {session}")
         session['money'] += 50  # Base money earned per task
         session['tasks_completed'] += 1
+        logging.debug(f"After writing code - Session state: {session}")
         return jsonify({
             'ceo_name': session['ceo_name'], 
             'money': session['money'], 
@@ -50,7 +55,7 @@ def write_code():
 def purchase_upgrade():
     upgrade = request.json
     try:
-        logging.debug(f"Upgrade request: {upgrade}")
+        logging.debug(f"Upgrade Request: {upgrade}")
         
         if upgrade['effect'] == 'money' and session['money'] >= upgrade['cost']:
             session['money'] -= upgrade['cost']  # Deduct the cost of the upgrade
