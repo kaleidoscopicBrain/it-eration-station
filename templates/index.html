@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT-eration Station</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -24,14 +25,28 @@
             </div>
 
             <div>
-                <form action="/write_code" method="POST">
-                    <button type="submit">Write Code</button>
-                </form>
-                <form action="/solve_ticket" method="POST">
-                    <button type="submit">Solve Ticket</button>
-                </form>
+                <button id="write_code">Write Code</button>
+                <button id="solve_ticket">Solve Ticket</button>
             </div>
         {% endif %}
     </div>
+
+    <script>
+        // Send request to write code
+        $('#write_code').on('click', function() {
+            $.post("/write_code", function(data) {
+                // Update the page with new data
+                $(".game-info").html(data);
+            });
+        });
+
+        // Send request to solve ticket
+        $('#solve_ticket').on('click', function() {
+            $.post("/solve_ticket", function(data) {
+                // Update the page with new data
+                $(".game-info").html(data);
+            });
+        });
+    </script>
 </body>
 </html>
