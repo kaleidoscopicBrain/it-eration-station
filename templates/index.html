@@ -38,8 +38,9 @@
             if (data.error) {
                 alert("Error: " + data.error);
             } else {
-                // Update the page with new data
+                // Dynamically update the game info on the page without refreshing
                 $(".game-info").html(`
+                    <p>Hello, {{ ceo_name }}!</p>
                     <p>Money: $${data.money}</p>
                     <p>Tasks Completed: ${data.tasks_completed}</p>
                 `);
@@ -55,8 +56,9 @@
             if (data.error) {
                 alert("Error: " + data.error);
             } else {
-                // Update the page with new data
+                // Dynamically update the game info on the page without refreshing
                 $(".game-info").html(`
+                    <p>Hello, {{ ceo_name }}!</p>
                     <p>Money: $${data.money}</p>
                     <p>Tasks Completed: ${data.tasks_completed}</p>
                 `);
@@ -66,5 +68,6 @@
         });
     });
     </script>
+
 </body>
 </html>
