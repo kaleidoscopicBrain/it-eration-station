@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+import logging
 
 app = Flask(__name__)
 
 # Set a secret key for session management (This should be kept secret in a real application)
 app.secret_key = 'your_secret_key_here'
+
+# Enable logging
+logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def home():
@@ -39,16 +43,19 @@ def write_code():
             'cooldown_time': session['cooldown_time']
         })
     except Exception as e:
-        print(f"Error in write_code: {e}")
+        logging.error(f"Error in write_code: {e}")
         return jsonify({'error': 'Something went wrong during write_code'}), 500
 
 @app.route('/purchase_upgrade', methods=['POST'])
 def purchase_upgrade():
     upgrade = request.json
     try:
+        logging.debug(f"Upgrade request: {upgrade}")
+        
         if upgrade['effect'] == 'money' and session['money'] >= upgrade['cost']:
             session['money'] -= upgrade['cost']  # Deduct the cost of the upgrade
             session['tasks_completed'] += upgrade['value']  # Increase tasks completed for money-based upgrades
+            logging.debug(f"Money upgrade applied. New money: {session['money']}")
             return jsonify({
                 'ceo_name': session['ceo_name'], 
                 'money': session['money'], 
@@ -60,6 +67,7 @@ def purchase_upgrade():
         elif upgrade['effect'] == 'cooldown' and session['money'] >= upgrade['cost']:
             session['money'] -= upgrade['cost']
             session['cooldown_time'] -= upgrade['value'] * 1000  # Decrease the cooldown time
+            logging.debug(f"Cooldown upgrade applied. New cooldown time: {session['cooldown_time']}")
             return jsonify({
                 'ceo_name': session['ceo_name'], 
                 'money': session['money'],
@@ -67,9 +75,10 @@ def purchase_upgrade():
                 'cooldown_time': session['cooldown_time']
             })
         else:
+            logging.error("Not enough money for this upgrade!")
             return jsonify({'error': 'Not enough money for this upgrade!'}), 400
     except Exception as e:
-        print(f"Error in purchase_upgrade: {e}")
+        logging.error(f"Error in purchase_upgrade: {e}")
         return jsonify({'error': 'Something went wrong during upgrade purchase'}), 500
 
 if __name__ == '__main__':
