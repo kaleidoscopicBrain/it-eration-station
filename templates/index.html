@@ -4,78 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT-eration Station</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="container">
         <h1>Welcome to IT-eration Station</h1>
+        
+        <!-- Game Info -->
+        <div class="game-info">
+            <p id="money">Money: $100</p>
+            <p id="tasks-completed">Tasks Completed: 0</p>
+            <p id="cooldown-time">Cooldown Time: 5s</p>
+        </div>
 
-        {% if ceo_name == "Player" %}
-            <p>Please enter your name:</p>
-            <form action="/set_name" method="POST">
-                <input type="text" name="player_name" required placeholder="Your Name">
-                <button type="submit">Start Game</button>
-            </form>
-        {% else %}
-            <div class="game-info">
-                <p>Hello, {{ ceo_name }}!</p>
-                <p>Money: ${{ money }}</p>
-                <p>Tasks Completed: {{ tasks_completed }}</p>
-                <p>Cooldown Time: {{ cooldown_time / 1000 }} seconds</p>
-            </div>
+        <!-- Task Buttons -->
+        <div class="buttons">
+            <button id="write-code" class="action-button">Write Code</button>
+        </div>
 
-            <div>
-                <button id="write_code" class="action-button">Write Code</button>
-                <a href="{{ url_for('upgrades') }}">
-                    <button class="action-button">Go to Upgrades</button>
-                </a>
+        <!-- Upgrade Section -->
+        <h2>Upgrades</h2>
+        <div class="upgrades">
+            <div class="upgrade">
+                <p>Increase money per task (+$10) - $100</p>
+                <button id="upgrade-money" class="upgrade-button">Buy Upgrade</button>
             </div>
-        {% endif %}
+            <div class="upgrade">
+                <p>Reduce cooldown time (2s) - $200</p>
+                <button id="upgrade-cooldown" class="upgrade-button">Buy Upgrade</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-    // Cooldown time in milliseconds (e.g., 5 seconds)
-    var cooldownTime = {{ cooldown_time }}; // Get initial cooldown time from the server
-
-    // Function to handle cooldowns and prevent button clicking
-    function startCooldown(buttonId) {
-        $(buttonId).prop('disabled', true); // Disable clicked button
-        $(buttonId).append('<div class="cooldown-progress"></div>');
-
-        setTimeout(function() {
-            $(buttonId).prop('disabled', false); // Enable clicked button after cooldown
-            $(buttonId).find('.cooldown-progress').remove(); // Remove the progress bar
-        }, cooldownTime);
-    }
-
-    // Send request to write code
-    $('#write_code').on('click', function() {
-        if (!$(this).prop('disabled')) {
-            $.post("/write_code", function(data) {
-                if (data.error) {
-                    alert("Error: " + data.error);
-                } else {
-                    // Dynamically update the game info on the page without refreshing
-                    $(".game-info").html(`
-                        <p>Hello, ${data.ceo_name}!</p>
-                        <p>Money: $${data.money}</p>
-                        <p>Tasks Completed: ${data.tasks_completed}</p>
-                        <p>Cooldown Time: ${data.cooldown_time / 1000} seconds</p>
-                    `);
-                    startCooldown("#write_code"); // Apply cooldown to Write Code button
-                }
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
-            });
-        }
-    });
-    
-    // Reset cooldowns when the page loads
-    $(document).ready(function() {
-        $(".action-button").prop('disabled', false);  // Ensure both buttons are enabled on page load
-    });
-    </script>
-
+    <script src="game.js"></script>
 </body>
 </html>
