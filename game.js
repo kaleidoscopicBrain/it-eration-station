@@ -41,7 +41,6 @@ writeCodeButton.addEventListener("click", function() {
 
             // Reset the button and progress bar after task completion
             writeCodeButton.disabled = false;
-            progressBar.style.width = "0%"; // Reset progress bar
         }, cooldownTime);
 
         // Set cooldown flag to true
