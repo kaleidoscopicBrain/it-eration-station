@@ -28,38 +28,43 @@
 
     <script>
     var upgrades = {
-        upgrade1: { cost: 100, effect: 'money', value: 10 },  // Example: increase money per task
-        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }  // Example: reduce cooldown time
+        upgrade1: { cost: 100, effect: 'money', value: 10 },  // Increase money per task
+        upgrade2: { cost: 200, effect: 'cooldown', value: 2 }  // Reduce cooldown time
     };
 
-    // Function to check if the player has enough money for the upgrade
-    function checkAndPurchaseUpgrade(upgrade) {
-        if (money >= upgrade.cost) {
-            money -= upgrade.cost;  // Deduct the cost of the upgrade
-            if (upgrade.effect === 'money') {
-                tasks_completed += upgrade.value;  // For example, increase tasks completed
-            } else if (upgrade.effect === 'cooldown') {
-                cooldownTime -= upgrade.value * 1000;  // Decrease the cooldown time
+    // Function to handle the upgrade purchase
+    function purchaseUpgrade(upgrade) {
+        $.ajax({
+            url: '/purchase_upgrade',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(upgrade),
+            success: function(response) {
+                if (response.error) {
+                    alert(response.error);
+                } else {
+                    alert(response.message);
+                    $(".game-info").html(`
+                        <p>Hello, ${response.ceo_name}!</p>
+                        <p>Money: $${response.money}</p>
+                        <p>Tasks Completed: ${response.tasks_completed}</p>
+                    `);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
             }
-            $(".game-info").html(`
-                <p>Hello, ${ceo_name}!</p>
-                <p>Money: $${money}</p>
-                <p>Tasks Completed: ${tasks_completed}</p>
-            `);
-            alert(`${upgrade.effect} upgrade successful!`);
-        } else {
-            alert("Not enough money for this upgrade!");
-        }
+        });
     }
 
-    // Handle Upgrade 1
+    // Handle Upgrade 1 purchase
     $('#upgrade_1').on('click', function() {
-        checkAndPurchaseUpgrade(upgrades.upgrade1);
+        purchaseUpgrade(upgrades.upgrade1);
     });
 
-    // Handle Upgrade 2
+    // Handle Upgrade 2 purchase
     $('#upgrade_2').on('click', function() {
-        checkAndPurchaseUpgrade(upgrades.upgrade2);
+        purchaseUpgrade(upgrades.upgrade2);
     });
 
     // Go back to the main game
