@@ -40,6 +40,7 @@ button {
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
+    position: relative;
 }
 
 button:hover {
@@ -61,4 +62,20 @@ button:hover {
 
 .upgrade-button:hover {
     background-color: #c0392b;
+}
+
+/* Progress bar styles */
+button .progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background-color: #3498db;
+    transition: width 5s linear; /* Progress bar transition for 5 seconds */
+}
+
+button:disabled {
+    background-color: #BDC3C7;
+    cursor: not-allowed;
 }
