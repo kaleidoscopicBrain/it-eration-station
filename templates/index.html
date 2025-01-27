@@ -40,7 +40,7 @@
             } else {
                 // Dynamically update the game info on the page without refreshing
                 $(".game-info").html(`
-                    <p>Hello, {{ ceo_name }}!</p>
+                    <p>Hello, ${data.ceo_name}!</p>
                     <p>Money: $${data.money}</p>
                     <p>Tasks Completed: ${data.tasks_completed}</p>
                 `);
@@ -58,7 +58,7 @@
             } else {
                 // Dynamically update the game info on the page without refreshing
                 $(".game-info").html(`
-                    <p>Hello, {{ ceo_name }}!</p>
+                    <p>Hello, ${data.ceo_name}!</p>
                     <p>Money: $${data.money}</p>
                     <p>Tasks Completed: ${data.tasks_completed}</p>
                 `);
