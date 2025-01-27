@@ -20,35 +20,25 @@ def set_name():
 @app.route('/write_code', methods=['POST'])
 def write_code():
     global money, tasks_completed
-    try:
-        money += 50
-        tasks_completed += 1
-        
-        # Return updated data as JSON for AJAX
-        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'money': money, 'tasks_completed': tasks_completed})
-        
-    except Exception as e:
-        print("Error in write_code:", e)  # Log the error
-        return jsonify({'error': 'Something went wrong in write_code'}), 500
-
+    money += 50
+    tasks_completed += 1
+    
+    # Check if it's an AJAX request and return JSON
+    if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'money': money, 'tasks_completed': tasks_completed})
+    
     return redirect(url_for('home'))
 
 @app.route('/solve_ticket', methods=['POST'])
 def solve_ticket():
     global money, tasks_completed
-    try:
-        money += 30
-        tasks_completed += 1
-        
-        # Return updated data as JSON for AJAX
-        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'money': money, 'tasks_completed': tasks_completed})
-        
-    except Exception as e:
-        print("Error in solve_ticket:", e)  # Log the error
-        return jsonify({'error': 'Something went wrong in solve_ticket'}), 500
-
+    money += 30
+    tasks_completed += 1
+    
+    # Check if it's an AJAX request and return JSON
+    if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'money': money, 'tasks_completed': tasks_completed})
+    
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
