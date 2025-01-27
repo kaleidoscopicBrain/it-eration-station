@@ -32,21 +32,28 @@
     </div>
 
     <script>
-        // Send request to write code
-        $('#write_code').on('click', function() {
-            $.post("/write_code", function(data) {
-                // Update the page with new data
-                $(".game-info").html(data);
-            });
+    // Send request to write code
+    $('#write_code').on('click', function() {
+        $.post("/write_code", function(data) {
+            // Update the page with new data
+            $(".game-info").html(`
+                <p>Money: $${data.money}</p>
+                <p>Tasks Completed: ${data.tasks_completed}</p>
+            `);
         });
+    });
 
-        // Send request to solve ticket
-        $('#solve_ticket').on('click', function() {
-            $.post("/solve_ticket", function(data) {
-                // Update the page with new data
-                $(".game-info").html(data);
-            });
+    // Send request to solve ticket
+    $('#solve_ticket').on('click', function() {
+        $.post("/solve_ticket", function(data) {
+            // Update the page with new data
+            $(".game-info").html(`
+                <p>Money: $${data.money}</p>
+                <p>Tasks Completed: ${data.tasks_completed}</p>
+            `);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
