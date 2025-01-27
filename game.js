@@ -13,6 +13,10 @@ const writeCodeButton = document.getElementById("write_code");
 const upgradeMoneyButton = document.getElementById("upgrade-money");
 const upgradeCooldownButton = document.getElementById("upgrade-cooldown");
 
+const writeCodeError = document.getElementById("write-code-error");
+const upgradeMoneyError = document.getElementById("upgrade-money-error");
+const upgradeCooldownError = document.getElementById("upgrade-cooldown-error");
+
 // Function to update the game info
 function updateGameInfo() {
     moneyElement.textContent = `Money: $${money}`;
@@ -39,7 +43,7 @@ writeCodeButton.addEventListener("click", function() {
             progressBar.style.width = "0%"; // Reset progress bar
         }, cooldownTime);
     } else {
-        alert("Please wait for the cooldown!");
+        showError(writeCodeError, "Please wait for the cooldown!");
     }
 });
 
@@ -49,9 +53,9 @@ upgradeMoneyButton.addEventListener("click", function() {
         money -= 100;
         moneyPerTask += 10; // Increase money per task
         updateGameInfo();
-        alert("Upgrade successful! You now earn more money per task.");
+        hideError(upgradeMoneyError); // Hide any existing errors
     } else {
-        alert("Not enough money for this upgrade.");
+        showError(upgradeMoneyError, "Not enough money for this upgrade.");
     }
 });
 
@@ -61,11 +65,22 @@ upgradeCooldownButton.addEventListener("click", function() {
         money -= 200;
         cooldownTime -= 2000; // Decrease cooldown time by 2 seconds
         updateGameInfo();
-        alert("Cooldown upgrade successful! Your cooldown time is reduced.");
+        hideError(upgradeCooldownError); // Hide any existing errors
     } else {
-        alert("Not enough money for this upgrade.");
+        showError(upgradeCooldownError, "Not enough money for this upgrade.");
     }
 });
+
+// Function to show error message
+function showError(element, message) {
+    element.textContent = message;
+    element.style.visibility = 'visible';
+}
+
+// Function to hide error message
+function hideError(element) {
+    element.style.visibility = 'hidden';
+}
 
 // Initial game info update
 updateGameInfo();
