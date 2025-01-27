@@ -37,6 +37,13 @@
     var solveTicketCooldown = false;
     var cooldownTime = 5000; // 5 seconds cooldown
 
+    // Reset cooldown flags on page load
+    $(document).ready(function() {
+        writeCodeCooldown = false;
+        solveTicketCooldown = false;
+        $(".action-button").prop('disabled', false);  // Enable both buttons on page load
+    });
+
     // Function to handle cooldowns and prevent button clicking
     function startCooldown(buttonId, otherButtonId) {
         $(buttonId).prop('disabled', true); // Disable clicked button
@@ -95,7 +102,8 @@
             });
         }
     });
-    </script>
+</script>
+
 
 </body>
 </html>
