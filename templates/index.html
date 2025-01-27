@@ -7,24 +7,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to IT-eration Station</h1>
-    <p>Your game is starting!</p>
-    
-    <div>
-        <h3>CEO Information</h3>
-        <p>Name: {{ ceo_name }}</p>
-        <p>Money: ${{ money }}</p>
-        <p>Tasks Completed: {{ tasks_completed }}</p>
-    </div>
+    <div class="container">
+        <h1>Welcome to IT-eration Station</h1>
 
-    <div>
-        <h3>Actions</h3>
-        <form action="/write_code" method="POST">
-            <button type="submit">Write Code</button>
-        </form>
-        <form action="/solve_ticket" method="POST">
-            <button type="submit">Solve Ticket</button>
-        </form>
+        {% if ceo_name == "Player" %}
+            <p>Please enter your name:</p>
+            <form action="/set_name" method="POST">
+                <input type="text" name="player_name" required placeholder="Your Name">
+                <button type="submit">Start Game</button>
+            </form>
+        {% else %}
+            <div class="game-info">
+                <p>Hello, {{ ceo_name }}!</p>
+                <p>Money: ${{ money }}</p>
+                <p>Tasks Completed: {{ tasks_completed }}</p>
+            </div>
+
+            <div>
+                <form action="/write_code" method="POST">
+                    <button type="submit">Write Code</button>
+                </form>
+                <form action="/solve_ticket" method="POST">
+                    <button type="submit">Solve Ticket</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>
