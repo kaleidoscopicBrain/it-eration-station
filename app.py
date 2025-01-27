@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ def write_code():
     money += 50
     tasks_completed += 1
     
-    # Check if it's an AJAX request
+    # Check if it's an AJAX request and return JSON
     if request.is_xhr:
         return jsonify({'money': money, 'tasks_completed': tasks_completed})
     
@@ -35,7 +35,7 @@ def solve_ticket():
     money += 30
     tasks_completed += 1
     
-    # Check if it's an AJAX request
+    # Check if it's an AJAX request and return JSON
     if request.is_xhr:
         return jsonify({'money': money, 'tasks_completed': tasks_completed})
     
