@@ -72,7 +72,7 @@ button .progress-bar {
     width: 0;
     height: 5px;
     background-color: #3498db;
-    transition: width 5s linear; /* Progress bar transition for 5 seconds */
+    transition: width 0s linear; /* Start with no progress */
 }
 
 button:disabled {
