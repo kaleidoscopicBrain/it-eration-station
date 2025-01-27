@@ -31,6 +31,16 @@
         {% endif %}
     </div>
 
+    <div>
+    <button id="write_code" class="action-button">Write Code</button>
+    <button id="solve_ticket" class="action-button">Solve Ticket</button>
+    <br><br>
+    <a href="{{ url_for('upgrades') }}">
+        <button class="action-button">Go to Upgrades</button>
+    </a>
+</div>
+
+
     <script>
     // Cooldown time in milliseconds (e.g., 5 seconds)
     var cooldownTime = 5000; // 5 seconds cooldown
