@@ -71,10 +71,6 @@ button {
     overflow: hidden;
 }
 
-button:hover {
-    background-color: #3498DB; /* Blue hover effect */
-}
-
 /* Disabled button style */
 button:disabled {
     background-color: #BDC3C7; /* Gray out the button */
