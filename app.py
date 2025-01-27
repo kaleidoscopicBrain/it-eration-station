@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -10,6 +10,12 @@ tasks_completed = 0
 @app.route('/')
 def home():
     return render_template('index.html', ceo_name=ceo_name, money=money, tasks_completed=tasks_completed)
+
+@app.route('/set_name', methods=['POST'])
+def set_name():
+    global ceo_name
+    ceo_name = request.form['player_name']
+    return redirect(url_for('home'))
 
 @app.route('/write_code', methods=['POST'])
 def write_code():
