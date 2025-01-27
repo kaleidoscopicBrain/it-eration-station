@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
@@ -23,9 +23,11 @@ def write_code():
     try:
         money += 50
         tasks_completed += 1
-        # Return updated data in JSON format for AJAX request
-        if request.is_xhr:
+        
+        # Return updated data as JSON for AJAX
+        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'money': money, 'tasks_completed': tasks_completed})
+        
     except Exception as e:
         print("Error in write_code:", e)  # Log the error
         return jsonify({'error': 'Something went wrong in write_code'}), 500
@@ -38,9 +40,11 @@ def solve_ticket():
     try:
         money += 30
         tasks_completed += 1
-        # Return updated data in JSON format for AJAX request
-        if request.is_xhr:
+        
+        # Return updated data as JSON for AJAX
+        if request.is_xhr or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'money': money, 'tasks_completed': tasks_completed})
+        
     except Exception as e:
         print("Error in solve_ticket:", e)  # Log the error
         return jsonify({'error': 'Something went wrong in solve_ticket'}), 500
