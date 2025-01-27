@@ -22,33 +22,29 @@
                 <p>Hello, {{ ceo_name }}!</p>
                 <p>Money: ${{ money }}</p>
                 <p>Tasks Completed: {{ tasks_completed }}</p>
+                <p>Cooldown Time: {{ cooldown_time / 1000 }} seconds</p>
             </div>
 
             <div>
                 <button id="write_code" class="action-button">Write Code</button>
-                <button id="solve_ticket" class="action-button">Solve Ticket</button>
                 <a href="{{ url_for('upgrades') }}">
-                <button class="action-button">Go to Upgrades</button>
-    </a>
+                    <button class="action-button">Go to Upgrades</button>
+                </a>
             </div>
         {% endif %}
     </div>
 
     <script>
     // Cooldown time in milliseconds (e.g., 5 seconds)
-    var cooldownTime = 5000; // 5 seconds cooldown
+    var cooldownTime = {{ cooldown_time }}; // Get initial cooldown time from the server
 
     // Function to handle cooldowns and prevent button clicking
-    function startCooldown(buttonId, otherButtonId) {
+    function startCooldown(buttonId) {
         $(buttonId).prop('disabled', true); // Disable clicked button
-        $(otherButtonId).prop('disabled', true); // Disable the other button
-
-        // Add the progress bar
         $(buttonId).append('<div class="cooldown-progress"></div>');
 
         setTimeout(function() {
             $(buttonId).prop('disabled', false); // Enable clicked button after cooldown
-            $(otherButtonId).prop('disabled', false); // Enable the other button
             $(buttonId).find('.cooldown-progress').remove(); // Remove the progress bar
         }, cooldownTime);
     }
@@ -65,42 +61,21 @@
                         <p>Hello, ${data.ceo_name}!</p>
                         <p>Money: $${data.money}</p>
                         <p>Tasks Completed: ${data.tasks_completed}</p>
+                        <p>Cooldown Time: ${data.cooldown_time / 1000} seconds</p>
                     `);
-                    startCooldown("#write_code", "#solve_ticket"); // Apply cooldown to buttons
+                    startCooldown("#write_code"); // Apply cooldown to Write Code button
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
             });
         }
     });
-
-    // Send request to solve ticket
-    $('#solve_ticket').on('click', function() {
-        if (!$(this).prop('disabled')) {
-            $.post("/solve_ticket", function(data) {
-                if (data.error) {
-                    alert("Error: " + data.error);
-                } else {
-                    // Dynamically update the game info on the page without refreshing
-                    $(".game-info").html(`
-                        <p>Hello, ${data.ceo_name}!</p>
-                        <p>Money: $${data.money}</p>
-                        <p>Tasks Completed: ${data.tasks_completed}</p>
-                    `);
-                    startCooldown("#solve_ticket", "#write_code"); // Apply cooldown to buttons
-                }
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
-            });
-        }
-    });
-
-    // Reset cooldowns when the page loads (making sure both buttons are enabled)
+    
+    // Reset cooldowns when the page loads
     $(document).ready(function() {
         $(".action-button").prop('disabled', false);  // Ensure both buttons are enabled on page load
     });
-</script>
-
+    </script>
 
 </body>
 </html>
