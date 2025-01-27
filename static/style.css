@@ -1,42 +1,41 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #FCFFFD; /* Light background */
-    color: #193441; /* Dark Blue for text */
-    margin: 0;
-    padding: 0;
+    background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
 .container {
-    background-color: #D1DBBD; /* Light Green for box background */
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
 }
 
 h1 {
     font-size: 24px;
-    color: #3E606F; /* Muted Blue for header */
+    color: #333;
 }
 
-p {
+.game-info p {
     font-size: 18px;
 }
 
-.game-info {
+.buttons {
     margin-top: 20px;
 }
 
 button {
-    background-color: #E74C3C; /* Red for action buttons */
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
@@ -44,55 +43,22 @@ button {
 }
 
 button:hover {
-    background-color: #3498DB; /* Blue hover effect */
+    background-color: #45a049;
 }
 
-input {
-    padding: 10px;
+.upgrades {
+    margin-top: 30px;
+}
+
+.upgrade {
+    margin-top: 20px;
+}
+
+.upgrade-button {
+    background-color: #E74C3C;
     width: 100%;
-    max-width: 250px;  /* Limit width */
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding in width calculation */
 }
 
-/* Button style */
-button {
-    background-color: #E74C3C; /* Red for action buttons */
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    position: relative;
-    overflow: hidden;
+.upgrade-button:hover {
+    background-color: #c0392b;
 }
-
-/* Disabled button style */
-button:disabled {
-    background-color: #BDC3C7; /* Gray out the button */
-    cursor: not-allowed;
-}
-
-/* Progress bar style */
-button .cooldown-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: #2980B9; /* Progress bar color */
-    transform: translateX(-100%); /* Start from the left */
-    animation: cooldown 5s linear forwards; /* Animate the progress bar */
-}
-
-/* Keyframe animation for progress bar */
-@keyframes cooldown {
-    100% {
-        transform: translateX(0); /* Move the progress bar to the right */
-    }
-}
-
