@@ -41,7 +41,7 @@
                 <p>Tasks Completed: ${data.tasks_completed}</p>
             `);
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log("Error:", textStatus, errorThrown);  // Debugging info
+            console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
         });
     });
 
@@ -54,10 +54,11 @@
                 <p>Tasks Completed: ${data.tasks_completed}</p>
             `);
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log("Error:", textStatus, errorThrown);  // Debugging info
+            console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
         });
     });
 </script>
+
 
 
 </body>
