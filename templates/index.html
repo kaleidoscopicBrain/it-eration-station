@@ -25,47 +25,71 @@
             </div>
 
             <div>
-                <button id="write_code">Write Code</button>
-                <button id="solve_ticket">Solve Ticket</button>
+                <button id="write_code" class="action-button">Write Code</button>
+                <button id="solve_ticket" class="action-button">Solve Ticket</button>
             </div>
         {% endif %}
     </div>
 
     <script>
+    // Cooldown time in milliseconds (e.g., 5 seconds)
+    var writeCodeCooldown = false;
+    var solveTicketCooldown = false;
+    var cooldownTime = 5000; // 5 seconds cooldown
+
+    // Function to handle cooldowns and prevent button clicking
+    function startCooldown(buttonId, otherButtonId) {
+        $(buttonId).prop('disabled', true); // Disable clicked button
+        $(otherButtonId).prop('disabled', true); // Disable the other button
+        
+        setTimeout(function() {
+            $(buttonId).prop('disabled', false); // Enable clicked button after cooldown
+            $(otherButtonId).prop('disabled', false); // Enable the other button
+        }, cooldownTime);
+    }
+
     // Send request to write code
     $('#write_code').on('click', function() {
-        $.post("/write_code", function(data) {
-            if (data.error) {
-                alert("Error: " + data.error);
-            } else {
-                // Dynamically update the game info on the page without refreshing
-                $(".game-info").html(`
-                    <p>Hello, ${data.ceo_name}!</p>
-                    <p>Money: $${data.money}</p>
-                    <p>Tasks Completed: ${data.tasks_completed}</p>
-                `);
-            }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
-        });
+        if (!writeCodeCooldown) {
+            $.post("/write_code", function(data) {
+                if (data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    // Dynamically update the game info on the page without refreshing
+                    $(".game-info").html(`
+                        <p>Hello, ${data.ceo_name}!</p>
+                        <p>Money: $${data.money}</p>
+                        <p>Tasks Completed: ${data.tasks_completed}</p>
+                    `);
+                    writeCodeCooldown = true;  // Set cooldown flag
+                    startCooldown("#write_code", "#solve_ticket"); // Apply cooldown to buttons
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
+            });
+        }
     });
 
     // Send request to solve ticket
     $('#solve_ticket').on('click', function() {
-        $.post("/solve_ticket", function(data) {
-            if (data.error) {
-                alert("Error: " + data.error);
-            } else {
-                // Dynamically update the game info on the page without refreshing
-                $(".game-info").html(`
-                    <p>Hello, ${data.ceo_name}!</p>
-                    <p>Money: $${data.money}</p>
-                    <p>Tasks Completed: ${data.tasks_completed}</p>
-                `);
-            }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
-        });
+        if (!solveTicketCooldown) {
+            $.post("/solve_ticket", function(data) {
+                if (data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    // Dynamically update the game info on the page without refreshing
+                    $(".game-info").html(`
+                        <p>Hello, ${data.ceo_name}!</p>
+                        <p>Money: $${data.money}</p>
+                        <p>Tasks Completed: ${data.tasks_completed}</p>
+                    `);
+                    solveTicketCooldown = true;  // Set cooldown flag
+                    startCooldown("#solve_ticket", "#write_code"); // Apply cooldown to buttons
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);  // Log if AJAX fails
+            });
+        }
     });
     </script>
 
