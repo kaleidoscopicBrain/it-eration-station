@@ -35,25 +35,12 @@ def write_code():
         return jsonify({
             'ceo_name': session['ceo_name'], 
             'money': session['money'], 
-            'tasks_completed': session['tasks_completed']
+            'tasks_completed': session['tasks_completed'],
+            'cooldown_time': session['cooldown_time']
         })
     except Exception as e:
         print(f"Error in write_code: {e}")
         return jsonify({'error': 'Something went wrong during write_code'}), 500
-
-@app.route('/solve_ticket', methods=['POST'])
-def solve_ticket():
-    try:
-        session['money'] += 30  # Base money earned per solved ticket
-        session['tasks_completed'] += 1
-        return jsonify({
-            'ceo_name': session['ceo_name'], 
-            'money': session['money'], 
-            'tasks_completed': session['tasks_completed']
-        })
-    except Exception as e:
-        print(f"Error in solve_ticket: {e}")
-        return jsonify({'error': 'Something went wrong during solve_ticket'}), 500
 
 @app.route('/purchase_upgrade', methods=['POST'])
 def purchase_upgrade():
@@ -66,7 +53,8 @@ def purchase_upgrade():
                 'ceo_name': session['ceo_name'], 
                 'money': session['money'], 
                 'tasks_completed': session['tasks_completed'],
-                'message': f"Upgrade purchased! {upgrade['effect']} increased."
+                'message': f"Upgrade purchased! {upgrade['effect']} increased.",
+                'cooldown_time': session['cooldown_time']
             })
         
         elif upgrade['effect'] == 'cooldown' and session['money'] >= upgrade['cost']:
@@ -75,8 +63,8 @@ def purchase_upgrade():
             return jsonify({
                 'ceo_name': session['ceo_name'], 
                 'money': session['money'],
-                'cooldown_time': session['cooldown_time'],
-                'message': f"Upgrade purchased! {upgrade['effect']} reduced."
+                'message': f"Upgrade purchased! {upgrade['effect']} reduced.",
+                'cooldown_time': session['cooldown_time']
             })
         else:
             return jsonify({'error': 'Not enough money for this upgrade!'}), 400
